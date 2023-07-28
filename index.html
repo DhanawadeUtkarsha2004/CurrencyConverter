@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>currency Converter</title>
+    <style>
+     *{
+        font-size: 25px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-weight: bold;
+        background-color: lemonchiffon;
+     }
+     h1{
+        border: 3px solid black;
+        border-radius: 10px;
+        width: 50%;
+     }
+     #btn{
+        font-size: 20px;
+        border-radius: 8px;
+     }
+    </style>
+    <script>
+         function convert()
+         {
+            event.preventDefault();
+            let aid = document.getElementById("aid");
+            let ans = document.getElementById("ans");
+            let url = "https://api.exchangerate-api.com/v4/latest/USD";
+
+            fetch(url)
+            .then(res => res. json())
+            .then(data => {
+                let dollar = data["rates"]["INR"];
+                let amt_in_dollar = parseFloat(aid.value);
+                let amt_in_rupees = amt_in_dollar * dollar;
+                let msg = "\u20b9" + amt_in_rupees.toFixed(2);
+                ans.innerHTML = msg;
+            })
+            .catch(err => ans.innerHTML = "issue " + err);
+        } 
+            
+    </script>
+</head>
+<body>
+    <center>
+         <h1>Currency Converter 4U</h1>
+         <form onsubmit="convert()">
+            <input type="number" step = "any" placeholder ="Enter  amt in $$" id="aid"/>
+            <br><br>
+            <input type ="submit" value="Convert" id ="btn"/>
+         </form>
+        <h1 id = "ans"></h1>
+    </center>
+</body>
+</html>
